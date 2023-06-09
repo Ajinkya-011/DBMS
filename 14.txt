@@ -1,6 +1,6 @@
 create table Book(isbn int,bname varchar(20),bcount int);
 
-create table Book_d(old_isbn int,old_bname varchar(20),old_bcount int);
+create table Books_d(old_isbn int,old_bname varchar(20),old_bcount int);
 
 
 delimiter //
@@ -9,30 +9,34 @@ create trigger T5
 before delete on Book
 for each row
 begin
-insert into Book_D (old_isbn,old_bname,old_bcount) values (old.isbn,old.bname,old.bcount);
+insert into Books_D (old_isbn,old_bname,old_bcount) values (old.isbn,old.bname,old.bcount);
 end; //
 
-select *from Book_D;
 
-select *from Book;
-delimeter ;
+
 delete from Book where isbn=101;
+//
 
-select *from Book_D;
-
-select *from Book;
+select * from Books_D;
+//
+select *from Book; 
+//
 delimiter //
 create trigger T6
 before update on Book
 for each row
-insert into Book_D (old_isbn,old_bname,old_bcount) values (old.isbn,old.bname,old.bcount);
+Begin
+insert into Books_D (old_isbn,old_bname,old_bcount) values (old.isbn,old.bname,old.bcount);
 end; //
-delimeter //
+
 update Book
 set bname="ABC"
 where
 isbn=101;
+//
 
-select *from Book_D;
-
+select *from Books_D;
+//
 select *from Book;
+
+//
