@@ -1,88 +1,117 @@
--- Create the emp table
-CREATE TABLE emp (
-  eno INT PRIMARY KEY,
-  ename VARCHAR(255),
-  bdate DATE,
-  title VARCHAR(255),
-  salary DECIMAL(8, 2),
-  dno INT
+create table emp(
+     eno int primary key,
+     ename varchar(20),
+     bdate date,
+     title varchar(20),
+     salary decimal(10.2),
+     dno int
+     );
+
+
+ insert into emp values(1,'Isha','2003-1-09','EE','45000.00',2);
+
+insert into emp values(2,'Pisha','2003-2-09','SA','25000.00',3);
+
+insert into emp values(3,'Tisha','2003-3-09','EE','55000.00',4);
+
+insert into emp values(4,'Disha','2003-4-09','TT','65000.00',5);
+
+
+create table proj(
+pno int primary key,
+pname varchar(20),
+budget decimal(10.2),
+dno int
 );
 
--- Create the proj table
-CREATE TABLE proj (
-  pno INT PRIMARY KEY,
-  pname VARCHAR(255),
-  budget DECIMAL(10, 2),
-  dno INT
+insert into proj values(1,'WEB1','200000',2);
+
+insert into proj values(2,'WEB2','150000',3);
+
+insert into proj values(3,'WEB3','90000',4);
+
+
+create table dept(
+dno int primary key,
+dname varchar(20),
+mgreno int
 );
 
--- Create the dept table
-CREATE TABLE dept (
-  dno INT PRIMARY KEY,
-  dname VARCHAR(255),
-  mgreno INT
+insert into dept values(2,'D1',1);
+
+insert into dept values(3,'D2',2);
+
+insert into dept values(4,'D3',3);
+
+
+create table workson(
+eno int,
+pno int,
+hours int
 );
 
--- Create the workson table
-CREATE TABLE workson (
-  eno INT,
-  pno INT,
-  hours INT,
-  PRIMARY KEY (eno, pno),
-  FOREIGN KEY (eno) REFERENCES emp(eno),
-  FOREIGN KEY (pno) REFERENCES proj(pno)
+insert into workson values(1,1,9);
+
+insert into workson values(2,1,8);
+
+insert into workson values(2,2,7);
+
+insert into workson values(3,2,7);
+
+drop table workson;
+
+
+
+create table workson(
+eno int,
+pno int,
+hours int,
+primary key(eno,pno),
+foreign key(eno) references emp(eno),
+foreign key(pno) references proj(pno)
 );
 
--- Insert records into the emp table
-INSERT INTO emp (eno, ename, bdate, title, salary, dno)
-VALUES
-  (1, 'John Doe', '1990-01-01', 'EE', 40000, 1),
-  (2, 'Jane Smith', '1992-05-15', 'SA', 50000, 2),
-  (3, 'Michael Johnson', '1988-09-30', 'EE', 60000, 1),
-  (4, 'Emily Davis', '1995-04-10', 'SA', 45000, 2),
-  (5, 'David Wilson', '1991-11-20', 'EE', 55000, 1);
+insert into workson values(1,1,9);
 
--- Insert records into the proj table
-INSERT INTO proj (pno, pname, budget, dno)
-VALUES
-  (1, 'Project 1', 120000, 1),
-  (2, 'Project 2', 80000, 2),
-  (3, 'Project 3', 150000, 1),
-  (4, 'Project 4', 90000, 2),
-  (5, 'Project 5', 110000, 1);
+insert into workson values(2,1,8);
 
--- Insert records into the dept table
-INSERT INTO dept (dno, dname, mgreno)
-VALUES
-  (1, 'Department 1', 1),
-  (2, 'Department 2', 2);
+insert into workson values(2,2,7);
 
--- Insert records into the workson table
-INSERT INTO workson (eno, pno, hours)
-VALUES
-  (1, 1, 40),
-  (2, 2, 35),
-  (3, 3, 42),
-  (4, 4, 38),
-  (5, 5, 41);
+delete from workson where hours=7;
 
-SELECT pno, pname
-FROM proj
-WHERE budget > 100000;
+delete from workson where hours=9;
 
-SELECT eno, ename
-FROM emp
-WHERE title IN ('EE', 'SA') AND salary > 35000;
+insert into workson values(1,2,7);
 
-SELECT ename
-FROM emp
-WHERE dno = 1
-ORDER BY salary DESC;
+insert into workson values(4,3,9);
 
-SELECT *
-FROM dept
-ORDER BY dname ASC;
 
-SELECT emp.ename, dept.dname, emp.title
-FROM emp
-JOIN dept ON emp.dno = dept.dno;
+
+select proj.pno,proj.pname,proj.budget
+from proj
+where proj.budget>100000.00;
+
+
+select emp.eno,emp.ename,emp.title,emp.salary
+from emp
+where emp.title in('EE','SA') and emp.salary>35000.00;
+
+
+select emp.ename
+from emp
+where dno=2
+order by emp.salary desc;
+
+
+select *
+from dept
+order by dname desc;
+
+
+select *
+from dept
+order by dname asc;
+
+select emp.ename,dept.dname,emp.title
+from dept
+join emp on dept.dno=emp.dno;
