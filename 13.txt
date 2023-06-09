@@ -27,4 +27,7 @@ if t>=35 and t<=40 then select concat('FAIL: ',t) as "rows";
 end if;
 end loop cursor_stu;
 close stu_cursor;
-end //
+end //  
+
+delimeter ;
+call cal_grade2() ;
