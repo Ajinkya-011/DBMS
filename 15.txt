@@ -17,3 +17,6 @@ set class="None";
 end if;
 return(class);
 end //
+
+select name ,total_marks,grade(total_marks) as class from stud;
+ //
